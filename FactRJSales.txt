@@ -1,0 +1,24 @@
+USE [AdventureWorks2017]
+GO
+
+/****** Object:  Table [dbo].[FactRJSales]    Script Date: 9/6/2019 10:25:05 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[FactRJSales](
+	[TerritioryID] [int] NULL,
+	[SalesAmount] [int] NULL
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[FactRJSales]  WITH CHECK ADD  CONSTRAINT [FK_FactRJSales_DimRJTerritory] FOREIGN KEY([TerritioryID])
+REFERENCES [dbo].[DimRJTerritory] ([TerritoryId])
+GO
+
+ALTER TABLE [dbo].[FactRJSales] CHECK CONSTRAINT [FK_FactRJSales_DimRJTerritory]
+GO
+
+

@@ -1,0 +1,17 @@
+[Total Sales All]
+[Measures].[Sales Amount] + [Measures].[Sales Amount - Fact Reseller Sales]
+
+[Total Product Cost All]
+[Measures].[Total Product Cost] + [Measures].[Total Product Cost - Fact Reseller Sales]
+
+Gross Profit Margin Calculations
+[Internet GPM]
+([Measures].[Sales Amount] - [Measures].[Total Product Cost])/[Measures].[Sales Amount]
+
+
+[Reseller GPM]
+([Measures].[Sales Amount - Fact Reseller Sales]-[Measures].[Total Product Cost - Fact Reseller Sales])/[Measures].[Sales Amount - Fact Reseller Sales]
+
+[Total GPM]
+([Measures].[Total Sales All]-[Measures].[Total Product Cost All])/[Measures].[Total Sales All]
+

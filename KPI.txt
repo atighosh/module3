@@ -1,0 +1,49 @@
+Create Calculation: [Profit Margin]
+([Measures].[Sales Amount] -  
+  ([Measures].[Total Product Cost] + [Measures].[Tax Amt] +  
+    [Measures].[Freight])) /  
+  [Measures].[Sales Amount]
+
+KPI: Gross Profit
+Value: [Profit Margin]
+
+Goal:
+Case  
+  When [Dim Sales Territory].[Sales Territory Group]  
+    Is [Dim Sales Territory].[Sales Territory Group].&[Europe]
+      Then .34  
+  When [Dim Sales Territory].[Sales Territory Group]  
+    Is [Dim Sales Territory].[Sales Territory Group].&[North America]
+      Then .36  
+  When [Dim Sales Territory].[Sales Territory Group] 
+    Is [Dim Sales Territory].[Sales Territory Group].&[Pacific]
+      Then .32  
+  Else .30  
+End
+
+Status:
+Case  
+  When KpiValue("Gross Profit") / KpiGoal("Gross Profit") > .90  
+    Then 1  
+  When KpiValue("Gross Profit") / KpiGoal("Gross Profit") <= .90  
+    And  
+       KpiValue("Gross Profit") / KpiGoal("Gross Profit") > .80  
+    Then 0  
+  Else -1  
+End
+
+Trend:
+Case  
+  When IsEmpty(ParallelPeriod([Order Date].[Calendar Year].[Calendar Year],  
+      1, [Order Date].[Calendar Year]))  
+    Then 0  
+  When [Measures].[Profit Margin] >  
+    (ParallelPeriod([Order Date].[Calendar Year].[Calendar Year],  
+      1, [Order Date].[Calendar Year]), [Measures].[Profit Margin])  
+    Then 1  
+  When [Measures].[Profit Margin] =  
+    (ParallelPeriod([Order Date].[Calendar Year].[Calendar Year],  
+      1, [Order Date].[Calendar Year]), [Measures].[Profit Margin])  
+    Then 0  
+  Else -1  
+End
